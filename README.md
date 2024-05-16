@@ -17,8 +17,11 @@
 **Требования к серверу:**
 
 **- CPU: Intel Core с поддержкой SGX;**
+
 **- RAM: 32GB;**
+
 **- Storage: 500 GB SSD;**
+
 **- OS: Ubuntu 22.04**
 
 ## Инструкция по установке ноды Swisstronik
@@ -186,6 +189,65 @@ swisstronikd tx staking create-validator \
 ```
 
 **Замените в поле moniker "Имя вашей ноды" на имя Вашей ноды**
+
+**Список полезных команд:**
+
+**Проверить статус ноды:**
+
+```
+swisstronikd status 2>&1 | jq
+```
+
+**Просмотреть логи:**
+
+```
+sudo journalctl -u swisstronikd -f
+```
+
+**Просмотреть доступные кошельки:**
+
+```
+swisstronikd keys list
+```
+
+**Проверить баланс кошелька:**
+
+```
+swisstronikd q bank balances $WALLET_ADDRESS
+```
+
+**Делегировать токены самому себе:**
+
+```
+swisstronikd tx staking delegate $(swisstronikd keys show $WALLET --bech val -a) 1000000uswtr --from $WALLET --chain-id swisstronik_1291-1 --keyring-backend test --gas-prices 300000uswtr -y
+```
+
+**Удалить ноду:**
+
+```
+sudo systemctl stop swisstronikd
+```
+
+```
+sudo systemctl disable swisstronikd
+```
+
+```
+sudo rm -rf /etc/systemd/system/swisstronikd.service
+```
+
+```
+sudo rm $(which swisstronikd)
+```
+
+```
+sudo rm -rf $HOME/.swisstronik
+```
+
+```
+sed -i "/SWISS_/d" $HOME/.bash_profile
+```
+
 
 
 
